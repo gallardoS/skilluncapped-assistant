@@ -1,0 +1,19 @@
+{
+    "manifest_version": 3,
+    "name": "SkillUncapped Assistant",
+    "version": "1.0",
+    "description": "enhances the workflow and user experience for skilluncapped via cross-site automation and built-in cors disabler",
+    "permissions": [],
+    "action": {},
+    "content_scripts": [
+        {
+            "matches": [
+                "*://*.skill-capped.com/*",
+                "*://skilluncapped.netlify.app/*"
+            ],
+            "js": [
+                "content.js"
+            ]
+        }
+    ]
+}
