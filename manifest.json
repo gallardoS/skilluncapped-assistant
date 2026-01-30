@@ -8,11 +8,21 @@
     "content_scripts": [
         {
             "matches": [
-                "*://*.skill-capped.com/*",
+                "*://*.skill-capped.com/*"
+            ],
+            "js": [
+                "source-scanner.js"
+            ],
+            "css": [
+                "content.css"
+            ]
+        },
+        {
+            "matches": [
                 "*://skilluncapped.netlify.app/*"
             ],
             "js": [
-                "content.js"
+                "tool-automator.js"
             ]
         }
     ]
