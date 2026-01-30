@@ -3,7 +3,21 @@
     "name": "SkillUncapped Assistant",
     "version": "1.0",
     "description": "enhances the workflow and user experience for skilluncapped via cross-site automation and built-in cors disabler",
-    "permissions": [],
+    "permissions": [
+        "declarativeNetRequest"
+    ],
+    "host_permissions": [
+        "<all_urls>"
+    ],
+    "declarative_net_request": {
+        "rule_resources": [
+            {
+                "id": "ruleset_1",
+                "enabled": true,
+                "path": "rules.json"
+            }
+        ]
+    },
     "action": {},
     "content_scripts": [
         {
