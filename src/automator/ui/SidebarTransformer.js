@@ -32,6 +32,12 @@ function initSidebarTransformation() {
     originalContainer.style.padding = '0';
     originalContainer.style.background = 'transparent';
     originalContainer.style.boxShadow = 'none';
+
+
+    const statusEl = document.getElementById('status');
+    if (statusEl) {
+        document.body.appendChild(statusEl);
+    }
 }
 
 function startSidebarObserver() {

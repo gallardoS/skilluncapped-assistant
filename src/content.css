@@ -353,3 +353,33 @@ a[href*="/browse/course/"] svg[data-name="Play Button"] {
     border-radius: 50%;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
+
+#status {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10002;
+    background: rgba(33, 150, 243, 0.9);
+    /* Blue-ish info color */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    pointer-events: none;
+    transition: opacity 0.3s, transform 0.3s;
+    backdrop-filter: blur(5px);
+    white-space: nowrap;
+}
+
+#video {
+    display: none;
+}
+
+#status:empty {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(-50%) translateY(-20px);
+}
