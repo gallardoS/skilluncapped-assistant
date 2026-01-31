@@ -92,17 +92,23 @@ class CardScanner {
             if (originalBtn) {
                 const container = anchor.firstElementChild;
                 if (container) {
-                    this.enhanceCard(container);
+                    this.enhanceCard(container, anchor.href);
                 }
             }
         });
     }
 
-    enhanceCard(container) {
+    enhanceCard(container, directUrl = null) {
         container.classList.add('skilluncapped-title-container');
 
-        const buttonComponent = new PlayButtonComponent(() => {
-            this.navigationHandler.notifyPendingNavigation();
+        const buttonComponent = new PlayButtonComponent((e) => {
+            if (directUrl) {
+                e.preventDefault();
+                e.stopPropagation();
+                this.navigationHandler.openTool(directUrl);
+            } else {
+                this.navigationHandler.notifyPendingNavigation();
+            }
         });
 
         container.appendChild(buttonComponent.create());
