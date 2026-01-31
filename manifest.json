@@ -25,7 +25,10 @@
                 "*://*.skill-capped.com/*"
             ],
             "js": [
-                "src/source-scanner.js"
+                "src/scanners/components/PlayButtonComponent.js",
+                "src/scanners/NavigationHandler.js",
+                "src/scanners/CardScanner.js",
+                "src/scanner-main.js"
             ],
             "css": [
                 "src/content.css"
@@ -36,7 +39,12 @@
                 "*://skilluncapped.netlify.app/*"
             ],
             "js": [
-                "src/tool-automator.js"
+                "src/automator/WindowOverrides.js",
+                "src/automator/ui/SidebarInjector.js",
+                "src/automator/ui/ControlsInjector.js",
+                "src/automator/VideoController.js",
+                "src/automator/ui/SidebarTransformer.js",
+                "src/automator-main.js"
             ],
             "css": [
                 "src/content.css"
