@@ -10,7 +10,7 @@ enhances the workflow and user experience for SkillUncapped via cross-site autom
 
 ## Installation
 
-1. Download the latest version from the [Releases](https://github.com/gallardoS/skilluncapped-assistant/releases/tag/1.0) page.
+1. Download the latest version from the [Releases](https://github.com/gallardoS/skilluncapped-assistant/releases) page.
 2. Unzip the downloaded file.
 3. Open Chrome and go to `chrome://extensions/`.
 4. Enable "Developer mode" in the top right corner.
