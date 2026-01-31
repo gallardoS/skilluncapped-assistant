@@ -57,10 +57,13 @@ class NavigationHandler {
         }
     }
 
-    openTool(url, playlist = [], index = -1) {
+    openTool(url, playlist = [], index = -1, courseName = null) {
         let target = `https://skilluncapped.netlify.app/?url=${encodeURIComponent(url)}`;
         if (playlist.length > 0 && index >= 0) {
             target += `&playlist=${encodeURIComponent(JSON.stringify(playlist))}&index=${index}`;
+        }
+        if (courseName) {
+            target += `&course=${encodeURIComponent(courseName)}`;
         }
         window.open(target, '_blank');
     }
@@ -115,6 +118,7 @@ class CardScanner {
 
                 let playlist = [];
                 let index = -1;
+                let courseName = null;
 
                 if (anchorElement) {
                     const listContainer = anchorElement.closest('.css-bj5ou2') || anchorElement.parentElement;
@@ -131,11 +135,22 @@ class CardScanner {
                         });
                         index = playlist.findIndex(item => item.url === directUrl);
                         console.log("Playlist extracted:", playlist);
-                        console.log("Current Index:", index);
+
+                        const hoverPar = listContainer.parentElement;
+                        if (hoverPar) {
+                            const titleContainer = hoverPar.querySelector('.css-1rwlwny');
+                            if (titleContainer) {
+                                const courseTitleEl = titleContainer.children[1];
+                                if (courseTitleEl) {
+                                    courseName = courseTitleEl.innerText.trim();
+                                    console.log("Course Name extracted:", courseName);
+                                }
+                            }
+                        }
                     }
                 }
 
-                this.navigationHandler.openTool(directUrl, playlist, index);
+                this.navigationHandler.openTool(directUrl, playlist, index, courseName);
             } else {
                 const card = container.closest('[data-name="CourseOverviewVidCard"]');
                 const isCurrent = card && card.querySelector('.current-video');
