@@ -3,7 +3,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    margin-left: 12px;
+    margin-left: 0px;
+    margin-right: 12px;
     vertical-align: middle;
 }
 
@@ -77,6 +78,14 @@
 }
 
 [data-name="CourseOverviewVidCard"] .play-icon {
+    display: none !important;
+}
+
+a[href*="/browse/course/"] div:has(> svg[data-name="Play Button"]) {
+    display: none !important;
+}
+
+a[href*="/browse/course/"] svg[data-name="Play Button"] {
     display: none !important;
 }
 

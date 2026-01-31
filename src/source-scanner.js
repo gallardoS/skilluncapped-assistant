@@ -65,6 +65,11 @@ class CardScanner {
     }
 
     scan() {
+        this.scanCards();
+        this.scanEpisodes();
+    }
+
+    scanCards() {
         const cards = document.querySelectorAll('[data-name="CourseOverviewVidCard"]');
 
         cards.forEach(card => {
@@ -73,6 +78,22 @@ class CardScanner {
             const titleEl = card.querySelector('div[style*="font-size: 16px"]');
             if (titleEl && titleEl.parentElement) {
                 this.enhanceCard(titleEl.parentElement);
+            }
+        });
+    }
+
+    scanEpisodes() {
+        const anchors = document.querySelectorAll('a[href*="/browse/course/"]');
+
+        anchors.forEach(anchor => {
+            if (anchor.querySelector('.skilluncapped-play-btn')) return;
+
+            const originalBtn = anchor.querySelector('svg[data-name="Play Button"]');
+            if (originalBtn) {
+                const container = anchor.firstElementChild;
+                if (container) {
+                    this.enhanceCard(container);
+                }
             }
         });
     }
