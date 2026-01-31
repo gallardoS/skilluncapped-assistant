@@ -19,9 +19,13 @@ class PlayButtonComponent {
 
         svg.addEventListener('click', (e) => this.onClick(e));
 
+        const baseDelays = [0, 0.7, 1.2];
+        const randomOffset = Math.random() * 2;
+
         for (let i = 0; i < 3; i++) {
             const sparkle = document.createElement("span");
             sparkle.classList.add("skilluncapped-sparkle");
+            sparkle.style.animationDelay = `${baseDelays[i] + randomOffset}s`;
             wrapper.appendChild(sparkle);
         }
 
@@ -53,8 +57,11 @@ class NavigationHandler {
         }
     }
 
-    openTool(url) {
-        const target = `https://skilluncapped.netlify.app/?url=${encodeURIComponent(url)}`;
+    openTool(url, playlist = [], index = -1) {
+        let target = `https://skilluncapped.netlify.app/?url=${encodeURIComponent(url)}`;
+        if (playlist.length > 0 && index >= 0) {
+            target += `&playlist=${encodeURIComponent(JSON.stringify(playlist))}&index=${index}`;
+        }
         window.open(target, '_blank');
     }
 }
@@ -92,20 +99,43 @@ class CardScanner {
             if (originalBtn) {
                 const container = anchor.firstElementChild;
                 if (container) {
-                    this.enhanceCard(container, anchor.href);
+                    this.enhanceCard(container, anchor.href, anchor);
                 }
             }
         });
     }
 
-    enhanceCard(container, directUrl = null) {
+    enhanceCard(container, directUrl = null, anchorElement = null) {
         container.classList.add('skilluncapped-title-container');
 
         const buttonComponent = new PlayButtonComponent((e) => {
             if (directUrl) {
                 e.preventDefault();
                 e.stopPropagation();
-                this.navigationHandler.openTool(directUrl);
+
+                let playlist = [];
+                let index = -1;
+
+                if (anchorElement) {
+                    const listContainer = anchorElement.closest('.css-bj5ou2') || anchorElement.parentElement;
+                    if (listContainer) {
+                        const siblings = Array.from(listContainer.querySelectorAll('a[href*="/browse/course/"]'));
+                        playlist = siblings.map(a => {
+                            const numEl = a.querySelector('.css-1mtsivt:nth-child(1) div:nth-child(2)');
+                            const titleEl = a.querySelector('.css-1mtsivt:nth-child(2) div');
+                            return {
+                                url: a.href,
+                                number: numEl ? numEl.innerText.trim() : '00',
+                                title: titleEl ? titleEl.innerText.trim() : 'Unknown Episode'
+                            };
+                        });
+                        index = playlist.findIndex(item => item.url === directUrl);
+                        console.log("Playlist extracted:", playlist);
+                        console.log("Current Index:", index);
+                    }
+                }
+
+                this.navigationHandler.openTool(directUrl, playlist, index);
             } else {
                 const card = container.closest('[data-name="CourseOverviewVidCard"]');
                 const isCurrent = card && card.querySelector('.current-video');

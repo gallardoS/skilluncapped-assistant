@@ -37,7 +37,12 @@
             ],
             "js": [
                 "src/tool-automator.js"
-            ]
+            ],
+            "css": [
+                "src/content.css"
+            ],
+            "run_at": "document_start",
+            "world": "MAIN"
         }
     ]
 }
