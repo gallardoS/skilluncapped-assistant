@@ -107,7 +107,14 @@ class CardScanner {
                 e.stopPropagation();
                 this.navigationHandler.openTool(directUrl);
             } else {
-                this.navigationHandler.notifyPendingNavigation();
+                const card = container.closest('[data-name="CourseOverviewVidCard"]');
+                const isCurrent = card && card.querySelector('.current-video');
+
+                if (isCurrent) {
+                    this.navigationHandler.openTool(window.location.href);
+                } else {
+                    this.navigationHandler.notifyPendingNavigation();
+                }
             }
         });
 
