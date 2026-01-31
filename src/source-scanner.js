@@ -6,6 +6,9 @@ class PlayButtonComponent {
     }
 
     create() {
+        const wrapper = document.createElement("div");
+        wrapper.classList.add("skilluncapped-btn-wrapper");
+
         const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
         svg.setAttribute("viewBox", "0 0 42 42");
         svg.classList.add("skilluncapped-play-btn");
@@ -15,7 +18,15 @@ class PlayButtonComponent {
         svg.appendChild(path);
 
         svg.addEventListener('click', (e) => this.onClick(e));
-        return svg;
+
+        for (let i = 0; i < 3; i++) {
+            const sparkle = document.createElement("span");
+            sparkle.classList.add("skilluncapped-sparkle");
+            wrapper.appendChild(sparkle);
+        }
+
+        wrapper.appendChild(svg);
+        return wrapper;
     }
 }
 

@@ -14,7 +14,7 @@
             {
                 "id": "ruleset_1",
                 "enabled": true,
-                "path": "rules.json"
+                "path": "src/rules.json"
             }
         ]
     },
@@ -25,10 +25,10 @@
                 "*://*.skill-capped.com/*"
             ],
             "js": [
-                "source-scanner.js"
+                "src/source-scanner.js"
             ],
             "css": [
-                "content.css"
+                "src/content.css"
             ]
         },
         {
@@ -36,7 +36,7 @@
                 "*://skilluncapped.netlify.app/*"
             ],
             "js": [
-                "tool-automator.js"
+                "src/tool-automator.js"
             ]
         }
     ]
