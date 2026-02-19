@@ -5,11 +5,11 @@ function initSidebarTransformation() {
     if (!originalContainer) return;
 
     const sidebar = document.createElement('div');
-    sidebar.className = 'skilluncapped-sidebar';
+    sidebar.className = 'skilluncapped-sidebar closed';
 
     const toggleBtn = document.createElement('button');
     toggleBtn.className = 'skilluncapped-sidebar-toggle';
-    toggleBtn.innerHTML = '◀';
+    toggleBtn.innerHTML = '▶';
     toggleBtn.title = 'Toggle Sidebar';
 
     toggleBtn.onclick = () => {
