@@ -8,14 +8,66 @@
     vertical-align: middle;
 }
 
+.skilluncapped-magic-play-btn {
+    padding: 4px;
+    border-radius: 50%;
+    isolation: isolate;
+    z-index: 1;
+}
+
+.skilluncapped-magic-play-btn::before,
+.skilluncapped-magic-play-btn::after {
+    content: "";
+    position: absolute;
+    border-radius: inherit;
+    pointer-events: none;
+    background: conic-gradient(
+        from 0deg,
+        #ff4fd8,
+        #7c5cff,
+        #23c4ff,
+        #3dff9f,
+        #fff06a,
+        #ff9b2f,
+        #ff4fd8
+    );
+    animation: skilluncappedRainbowSpin 2.8s linear infinite;
+}
+
+.skilluncapped-magic-play-btn::before {
+    inset: 0;
+    z-index: 0;
+    box-shadow: 0 0 10px rgba(124, 92, 255, 0.45);
+}
+
+.skilluncapped-magic-play-btn::after {
+    inset: -7px;
+    z-index: -1;
+    opacity: 0.55;
+    filter: blur(10px);
+}
+
 .skilluncapped-play-btn {
     cursor: pointer;
     width: 34px;
     height: 34px;
-    fill: #000000;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 28%, #353746 0%, #11131c 48%, #05060a 100%);
+    box-shadow:
+        inset 0 1px 6px rgba(255, 255, 255, 0.2),
+        0 0 12px rgba(0, 0, 0, 0.55);
     filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.4));
-    transition: transform 0.2s, fill 0.2s;
-    z-index: 1;
+    transition: transform 0.2s ease, filter 0.2s ease;
+    z-index: 2;
+}
+
+.skilluncapped-play-disc {
+    fill: rgba(6, 7, 12, 0.96);
+}
+
+.skilluncapped-play-glyph {
+    fill: #ffffff;
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.55));
 }
 
 .skilluncapped-nav-btn {
@@ -37,7 +89,9 @@
 
 .skilluncapped-play-btn:hover {
     transform: scale(1.15);
-    fill: #333333;
+    filter:
+        drop-shadow(0 0 6px rgba(255, 79, 216, 0.7))
+        drop-shadow(0 0 12px rgba(35, 196, 255, 0.55));
 }
 
 .skilluncapped-nav-btn:hover {
@@ -96,6 +150,12 @@
     100% {
         transform: scale(0.5) rotate(360deg);
         opacity: 0;
+    }
+}
+
+@keyframes skilluncappedRainbowSpin {
+    to {
+        transform: rotate(360deg);
     }
 }
 
@@ -349,9 +409,6 @@ a[href*="/browse/course/"] svg[data-name="Play Button"] {
 .skilluncapped-card-play-btn .skilluncapped-play-btn {
     width: 60px;
     height: 60px;
-    background-color: white;
-    border-radius: 50%;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .skilluncapped-commentary-play-btn {
@@ -366,9 +423,6 @@ a[href*="/browse/course/"] svg[data-name="Play Button"] {
 .skilluncapped-commentary-play-btn .skilluncapped-play-btn {
     width: 56px;
     height: 56px;
-    background-color: white;
-    border-radius: 50%;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.45);
 }
 
 #status {

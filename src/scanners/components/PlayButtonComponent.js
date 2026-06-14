@@ -6,14 +6,23 @@ class PlayButtonComponent {
     create() {
         const wrapper = document.createElement("div");
         wrapper.classList.add("skilluncapped-btn-wrapper");
+        wrapper.classList.add("skilluncapped-magic-play-btn");
 
         const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
         svg.setAttribute("viewBox", "0 0 42 42");
         svg.classList.add("skilluncapped-play-btn");
 
-        const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-        path.setAttribute("d", "M20.91,0A20.92,20.92,0,1,0,41.83,20.91,20.91,20.91,0,0,0,20.91,0ZM16,29.29V12.53l14.71,8.38Z");
-        svg.appendChild(path);
+        const disc = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        disc.setAttribute("cx", "21");
+        disc.setAttribute("cy", "21");
+        disc.setAttribute("r", "18");
+        disc.classList.add("skilluncapped-play-disc");
+        svg.appendChild(disc);
+
+        const glyph = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        glyph.setAttribute("d", "M17 12.6L30.8 21L17 29.4Z");
+        glyph.classList.add("skilluncapped-play-glyph");
+        svg.appendChild(glyph);
 
         svg.addEventListener('click', (e) => this.onClick(e));
 
