@@ -2,22 +2,31 @@ class NavigationHandler {
     constructor() {
         this.playButtonPending = false;
         this.checkInterval = null;
+        this.pendingUrlTransformer = null;
     }
 
-    notifyPendingNavigation() {
+    notifyPendingNavigation(urlTransformer = null) {
         this.playButtonPending = true;
+        this.pendingUrlTransformer = urlTransformer;
 
         setTimeout(() => {
             if (this.playButtonPending) {
                 this.playButtonPending = false;
+                this.pendingUrlTransformer = null;
             }
         }, 5000);
     }
 
     handleUrlChange(newUrl) {
         if (this.playButtonPending) {
+            const urlTransformer = this.pendingUrlTransformer;
             this.playButtonPending = false;
-            this.openTool(newUrl);
+            this.pendingUrlTransformer = null;
+
+            const targetUrl = urlTransformer ? urlTransformer(newUrl) : newUrl;
+            if (targetUrl) {
+                this.openTool(targetUrl);
+            }
         }
     }
 

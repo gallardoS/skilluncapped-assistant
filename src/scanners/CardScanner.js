@@ -7,6 +7,7 @@ class CardScanner {
         this.scanCards();
         this.scanEpisodes();
         this.scanBrowseCards();
+        this.scanCommentaryCards();
     }
 
     scanCards() {
@@ -102,6 +103,90 @@ class CardScanner {
                 }
             }
         });
+    }
+
+    scanCommentaryCards() {
+        if (!window.location.pathname.includes('/commentaries')) return;
+
+        const cards = document.querySelectorAll('[data-name*="CommentaryCard"]');
+        const links = document.querySelectorAll('a[href*="/commentaries/"]');
+
+        cards.forEach(card => {
+            this.enhanceCommentaryCard(card, card.querySelector('a[href*="/commentaries/"]'));
+        });
+
+        links.forEach(link => {
+            const card = this.findCommentaryCard(link);
+            this.enhanceCommentaryCard(card, link);
+        });
+    }
+
+    enhanceCommentaryCard(card, link = null) {
+        if (!card || card.querySelector('.skilluncapped-commentary-play-btn')) return;
+
+        const buttonComponent = new PlayButtonComponent((e) => {
+            const targetUrl = link ? this.buildCommentaryPlaybackUrl(link.getAttribute('href')) : null;
+
+            if (targetUrl) {
+                e.preventDefault();
+                e.stopPropagation();
+                this.navigationHandler.openTool(targetUrl);
+                return;
+            }
+
+            this.navigationHandler.notifyPendingNavigation((url) => this.buildCommentaryPlaybackUrl(url));
+            e.preventDefault();
+            e.stopPropagation();
+
+            const nativeTarget = this.findCommentaryNativeClickTarget(card);
+            if (nativeTarget) {
+                nativeTarget.click();
+            }
+        });
+
+        const btn = buttonComponent.create();
+        btn.classList.add('skilluncapped-commentary-play-btn');
+
+        if (getComputedStyle(card).position === 'static') {
+            card.style.position = 'relative';
+        }
+
+        card.appendChild(btn);
+    }
+
+    findCommentaryNativeClickTarget(card) {
+        return card.querySelector('img[src*="Play%20Button"], img[srcset*="Play%20Button"]') || card;
+    }
+
+    findCommentaryCard(link) {
+        const namedCard = link.closest('[data-name*="CommentaryCard"]');
+        if (namedCard) return namedCard;
+
+        let candidate = link.parentElement;
+        while (candidate && candidate !== document.body) {
+            if (candidate.querySelectorAll('a[href*="/commentaries/"]').length === 1) {
+                return candidate;
+            }
+            candidate = candidate.parentElement;
+        }
+
+        return link.parentElement;
+    }
+
+    buildCommentaryPlaybackUrl(href) {
+        if (!href) return null;
+
+        try {
+            const url = new URL(href, window.location.origin);
+            const path = url.pathname.replace(/\/+$/, '');
+            if (!/\/commentaries\/[^/]+/.test(path)) return null;
+
+            url.pathname = path.endsWith('/qqq') ? path : `${path}/qqq`;
+            return url.href;
+        } catch (error) {
+            console.warn('SkillUncapped Assistant: Invalid commentary URL', href, error);
+            return null;
+        }
     }
 
     enhanceCard(container, directUrl = null, anchorElement = null) {

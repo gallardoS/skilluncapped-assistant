@@ -354,6 +354,23 @@ a[href*="/browse/course/"] svg[data-name="Play Button"] {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
+.skilluncapped-commentary-play-btn {
+    position: absolute;
+    right: 14px;
+    bottom: 14px;
+    z-index: 25;
+    pointer-events: auto;
+    margin: 0 !important;
+}
+
+.skilluncapped-commentary-play-btn .skilluncapped-play-btn {
+    width: 56px;
+    height: 56px;
+    background-color: white;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.45);
+}
+
 #status {
     position: fixed;
     top: 80px;
