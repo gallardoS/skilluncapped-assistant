@@ -1,22 +1,19 @@
 function injectPlaylistSidebar(playlist, currentIndex, courseName = null) {
     if (document.getElementById('skilluncapped-playlist-sidebar')) return;
 
+    const hasPlaylist = playlist && playlist.length > 0;
     const sidebar = document.createElement('div');
     sidebar.id = 'skilluncapped-playlist-sidebar';
-    sidebar.className = 'skilluncapped-sidebar-right';
+    sidebar.className = hasPlaylist ? 'skilluncapped-sidebar-right' : 'skilluncapped-sidebar-right closed';
 
     const toggleBtn = document.createElement('button');
     toggleBtn.className = 'skilluncapped-sidebar-toggle-right';
-    toggleBtn.innerHTML = '▶';
+    toggleBtn.innerHTML = hasPlaylist ? '\u25b6' : '\u25c0';
     toggleBtn.title = 'Toggle Playlist';
 
     toggleBtn.onclick = () => {
         sidebar.classList.toggle('closed');
-        if (sidebar.classList.contains('closed')) {
-            toggleBtn.innerHTML = '◀';
-        } else {
-            toggleBtn.innerHTML = '▶';
-        }
+        toggleBtn.innerHTML = sidebar.classList.contains('closed') ? '\u25c0' : '\u25b6';
     };
     sidebar.appendChild(toggleBtn);
 
@@ -28,7 +25,7 @@ function injectPlaylistSidebar(playlist, currentIndex, courseName = null) {
     const listContainer = document.createElement('div');
     listContainer.className = 'skilluncapped-playlist-container';
 
-    if (!playlist || playlist.length === 0) {
+    if (!hasPlaylist) {
         const msg = document.createElement('div');
         msg.style.padding = '15px';
         msg.style.color = '#ff6b6b';
