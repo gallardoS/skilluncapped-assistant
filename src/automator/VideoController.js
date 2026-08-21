@@ -88,7 +88,7 @@ function setupNextVideoCountdown(playlist, currentIndex, courseName = null) {
             }
 
             status.textContent = `Loading next video in... ${secondsLeft}`;
-        }, 1000);
+        }, 750);
     };
 
     const isAtRealPlaybackEnd = (video) => {
@@ -114,7 +114,7 @@ function setupNextVideoCountdown(playlist, currentIndex, courseName = null) {
             if (playbackDidNotAdvance && isAtRealPlaybackEnd(video)) {
                 startCountdown();
             }
-        }, 2500);
+        }, 1000);
     };
 
     const attachToVideo = (video) => {
