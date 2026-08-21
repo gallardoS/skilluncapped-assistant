@@ -27,6 +27,11 @@ function attemptAutoplay(targetUrl, playlist, currentIndexStr, courseName) {
 
             injectControls(parsedPlaylist, parsedIndex, courseName);
             setupNextVideoCountdown(parsedPlaylist, parsedIndex, courseName);
+            window.skillUncappedAdjacentVideoPreloader?.preloadAdjacent(
+                parsedPlaylist,
+                parsedIndex,
+                document.getElementById('video')
+            );
         }
     }, 500);
 
