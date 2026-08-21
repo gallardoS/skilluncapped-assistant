@@ -445,6 +445,10 @@ a[href*="/browse/course/"] svg[data-name="Play Button"] {
     white-space: nowrap;
 }
 
+#status.skilluncapped-next-video-countdown {
+    font-variant-numeric: tabular-nums;
+}
+
 #video {
     display: none;
 }
