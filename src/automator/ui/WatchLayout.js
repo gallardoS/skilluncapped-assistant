@@ -1,11 +1,12 @@
-function initSidebarTransformation() {
+function initWatchLayout() {
     if (document.getElementById('skilluncapped-watch-layout')) return;
 
-    const originalContainer = document.querySelector('.container');
+    const nativeControls = document.querySelector('.container');
     const video = document.getElementById('video');
-    if (!originalContainer || !video) return;
+    if (!nativeControls || !video) return;
 
     document.body.classList.add('skilluncapped-watch-page');
+    nativeControls.classList.add('skilluncapped-native-controls');
 
     const layout = document.createElement('main');
     layout.id = 'skilluncapped-watch-layout';
@@ -33,35 +34,16 @@ function initSidebarTransformation() {
     if (existingPlaylist) layout.appendChild(existingPlaylist);
 
     document.body.prepend(layout);
-
-    const sidebar = document.createElement('aside');
-    sidebar.className = 'skilluncapped-sidebar closed';
-
-    const toggleBtn = document.createElement('button');
-    toggleBtn.className = 'skilluncapped-sidebar-toggle';
-    toggleBtn.type = 'button';
-    toggleBtn.innerHTML = '⚙';
-    toggleBtn.title = 'Open player settings';
-    toggleBtn.setAttribute('aria-label', 'Open player settings');
-    toggleBtn.setAttribute('aria-expanded', 'false');
-
-    toggleBtn.onclick = () => {
-        const isClosed = sidebar.classList.toggle('closed');
-        toggleBtn.innerHTML = isClosed ? '⚙' : '←';
-        toggleBtn.title = isClosed ? 'Open player settings' : 'Close player settings';
-        toggleBtn.setAttribute('aria-expanded', String(!isClosed));
-    };
-
-    sidebar.append(toggleBtn, originalContainer);
-    document.body.appendChild(sidebar);
+    document.body.appendChild(nativeControls);
 }
 
-function startSidebarObserver() {
-    const sidebarInterval = setInterval(() => {
+function startWatchLayoutObserver() {
+    const layoutInterval = setInterval(() => {
         if (document.querySelector('.container') && document.getElementById('video')) {
-            initSidebarTransformation();
-            clearInterval(sidebarInterval);
+            initWatchLayout();
+            clearInterval(layoutInterval);
         }
     }, 100);
-    setTimeout(() => clearInterval(sidebarInterval), 10000);
+
+    setTimeout(() => clearInterval(layoutInterval), 10000);
 }

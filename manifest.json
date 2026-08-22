@@ -55,9 +55,10 @@
                 "src/automator/AdjacentVideoPreloader.js",
                 "src/automator/WindowOverrides.js",
                 "src/automator/ui/SidebarInjector.js",
+                "src/automator/ui/DownloadDialogInjector.js",
                 "src/automator/ui/ControlsInjector.js",
                 "src/automator/VideoController.js",
-                "src/automator/ui/SidebarTransformer.js",
+                "src/automator/ui/WatchLayout.js",
                 "src/automator-main.js"
             ],
             "css": [

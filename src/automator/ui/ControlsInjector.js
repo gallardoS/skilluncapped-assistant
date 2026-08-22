@@ -22,6 +22,10 @@ function injectControls(playlist, currentIndex, courseName = null) {
     titleGroup.appendChild(titleEl);
     container.appendChild(titleGroup);
 
+    const actions = document.createElement('div');
+    actions.className = 'skilluncapped-video-actions';
+    actions.appendChild(injectDownloadDialog(titleEl.textContent));
+
     const navigation = document.createElement('div');
     navigation.className = 'skilluncapped-video-navigation';
 
@@ -39,7 +43,8 @@ function injectControls(playlist, currentIndex, courseName = null) {
         }));
     }
 
-    if (navigation.childElementCount) container.appendChild(navigation);
+    if (navigation.childElementCount) actions.appendChild(navigation);
+    container.appendChild(actions);
 
     const details = document.querySelector('.skilluncapped-video-details');
     (details || document.body).appendChild(container);

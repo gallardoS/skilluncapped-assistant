@@ -8,4 +8,4 @@ if (targetUrl) {
     attemptAutoplay(targetUrl, playlistJson, currentIndexStr, courseName);
 }
 
-startSidebarObserver();
+startWatchLayoutObserver();
