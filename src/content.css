@@ -330,8 +330,15 @@ a[href*="/browse/course/"] svg[data-name="Play Button"] {
     white-space: nowrap;
 }
 
-#status.skilluncapped-next-video-countdown {
+#status.skilluncapped-next-video-countdown,
+#status.skilluncapped-final-part-status {
+    padding: 5px 9px;
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.68);
+    box-shadow: none;
+    font-size: 12px;
     font-variant-numeric: tabular-nums;
+    backdrop-filter: none;
 }
 
 #video {
@@ -389,9 +396,14 @@ body.skilluncapped-watch-page {
     z-index: 20;
     cursor: pointer;
     caret-color: transparent;
+    pointer-events: none;
     touch-action: manipulation;
     user-select: none;
     -webkit-user-select: none;
+}
+
+.skilluncapped-gesture-surface.capture-next-click {
+    pointer-events: auto;
 }
 
 .skilluncapped-gesture-feedback {

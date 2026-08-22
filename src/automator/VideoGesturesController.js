@@ -34,6 +34,8 @@ class VideoGesturesController {
 
     attach() {
         this.attachGestureSurfaceEvents();
+        this.video.addEventListener('pointerdown', this.handlePointerDown);
+        this.video.addEventListener('click', this.handleClick);
         this.player.addEventListener('dblclick', this.handleDoubleClick, true);
         window.addEventListener('pointermove', this.handlePointerMove, true);
         window.addEventListener('pointerup', this.handlePointerUp, true);
@@ -65,7 +67,11 @@ class VideoGesturesController {
     }
 
     isInsideVideoSurface(event) {
-        return event.target === this.gestureSurface;
+        if (event.target === this.gestureSurface) return true;
+        if (event.target !== this.video) return false;
+
+        const rect = this.player.getBoundingClientRect();
+        return event.clientY < rect.bottom - 56;
     }
 
     handleDoubleClick(event) {
@@ -164,12 +170,15 @@ class VideoGesturesController {
     }
 
     handleClick(event) {
+        if (!this.isInsideVideoSurface(event)) return;
+
         event.preventDefault();
         event.stopPropagation();
 
         if (this.suppressNextClick) {
             this.suppressNextClick = false;
             this.replaceGestureSurface();
+            this.gestureSurface.classList.remove('capture-next-click');
             return;
         }
 
@@ -193,6 +202,7 @@ class VideoGesturesController {
                 this.seekFromPoint(event.clientX);
             }
             this.replaceGestureSurface();
+            this.gestureSurface.classList.remove('capture-next-click');
             return;
         }
 
@@ -221,9 +231,11 @@ class VideoGesturesController {
             this.lastClickAt = 0;
             this.lastClickSide = null;
             this.playbackStateBeforeClick = null;
+            this.gestureSurface.classList.remove('capture-next-click');
         }, 350);
 
         this.replaceGestureSurface();
+        this.gestureSurface.classList.add('capture-next-click');
     }
 
     cancelSingleClick() {
@@ -235,6 +247,7 @@ class VideoGesturesController {
             clearTimeout(this.playbackFeedbackTimer);
             this.playbackFeedbackTimer = null;
         }
+        this.gestureSurface.classList.remove('capture-next-click');
     }
 
     restorePlaybackState() {

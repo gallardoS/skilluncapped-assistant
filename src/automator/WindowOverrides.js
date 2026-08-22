@@ -11,7 +11,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (video && status) {
 
         const checkStatus = () => {
-            if (!status.innerText || status.innerText.trim() === '') {
+            const statusText = status.innerText?.trim() || '';
+            status.classList.toggle(
+                'skilluncapped-final-part-status',
+                statusText.toLowerCase().includes('looking for the final part')
+            );
+
+            if (statusText === '') {
                 video.style.display = 'block';
             } else {
                 video.style.display = 'none';
