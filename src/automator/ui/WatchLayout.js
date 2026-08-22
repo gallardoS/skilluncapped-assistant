@@ -65,8 +65,8 @@ function initWatchLayout() {
     updateAlert.href = 'https://github.com/gallardoS/skilluncapped-assistant/releases';
     updateAlert.target = '_blank';
     updateAlert.rel = 'noopener noreferrer';
-    updateAlert.dataset.tooltip = 'A new version is available';
-    updateAlert.setAttribute('aria-label', 'A new version is available');
+    updateAlert.dataset.tooltip = 'a new version is available';
+    updateAlert.setAttribute('aria-label', 'a new version is available');
     updateAlert.hidden = true;
 
     const updateAlertIcon = document.createElement('span');

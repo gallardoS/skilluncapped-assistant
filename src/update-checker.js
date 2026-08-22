@@ -21,9 +21,9 @@ async function initializeUpdateChecker() {
     const updateAlert = await waitForUpdateInterface();
     const currentVersion = chrome.runtime.getManifest().version;
     const versionLink = document.querySelector('.skilluncapped-version-link');
+    const message = 'a new version is available';
 
     if (versionLink) versionLink.textContent = `v${currentVersion}`;
-
     chrome.runtime.sendMessage(
         { type: 'SKILLUNCAPPED_CHECK_FOR_UPDATE' },
         response => {
@@ -32,8 +32,6 @@ async function initializeUpdateChecker() {
                 return;
             }
 
-            const latestVersion = String(response.latestVersion).replace(/^v/i, '');
-            const message = `A new version is available: v${latestVersion}`;
             updateAlert.href = response.releaseUrl;
             updateAlert.dataset.tooltip = message;
             updateAlert.setAttribute('aria-label', message);
