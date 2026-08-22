@@ -52,6 +52,7 @@
                 "*://skilluncapped.netlify.app/*"
             ],
             "js": [
+                "src/automator/AdjacentVideoPreloader.js",
                 "src/automator/WindowOverrides.js",
                 "src/automator/ui/SidebarInjector.js",
                 "src/automator/ui/ControlsInjector.js",
