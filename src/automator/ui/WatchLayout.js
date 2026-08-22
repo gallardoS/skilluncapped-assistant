@@ -35,7 +35,35 @@ function initWatchLayout() {
     const existingPlaylist = document.getElementById('skilluncapped-playlist-sidebar');
     if (existingPlaylist) layout.appendChild(existingPlaylist);
 
+    const floatingBrand = document.createElement('div');
+    floatingBrand.className = 'skilluncapped-floating-brand';
+
+    const brand = document.createElement('div');
+    brand.className = 'skilluncapped-floating-brand-text';
+
+    const brandName = document.createElement('strong');
+    brandName.textContent = 'SkillUncapped';
+
+    const brandSuffix = document.createElement('span');
+    brandSuffix.textContent = ' assistant';
+
+    brand.append(brandName, brandSuffix);
+
+    const versionLink = document.createElement('a');
+    versionLink.className = 'skilluncapped-version-link';
+    versionLink.href = 'https://github.com/gallardoS/skilluncapped-assistant/releases';
+    versionLink.target = '_blank';
+    versionLink.rel = 'noopener noreferrer';
+    versionLink.textContent = 'v1.4';
+
+    const versionSeparator = document.createElement('span');
+    versionSeparator.className = 'skilluncapped-version-separator';
+    versionSeparator.textContent = '·';
+
+    floatingBrand.append(brand, versionSeparator, versionLink);
+
     document.body.prepend(layout);
+    document.body.appendChild(floatingBrand);
     document.body.appendChild(nativeControls);
 }
 

@@ -360,6 +360,10 @@ body.skilluncapped-watch-page {
     font-family: Roboto, Arial, sans-serif;
 }
 
+body.skilluncapped-watch-page a[href*="discord" i] {
+    display: none !important;
+}
+
 #skilluncapped-watch-layout {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(320px, 400px);
@@ -369,6 +373,75 @@ body.skilluncapped-watch-page {
     margin: 0 auto;
     padding: 24px 0 48px;
     box-sizing: border-box;
+}
+
+.skilluncapped-floating-brand {
+    --skilluncapped-brand-right-offset: max(24px, calc((100vw - 1600px) / 2));
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    z-index: 15000;
+    display: flex;
+    align-items: baseline;
+    gap: 7px;
+    padding: 0 var(--skilluncapped-brand-right-offset) 16px 0;
+    box-sizing: border-box;
+    isolation: isolate;
+    pointer-events: none;
+}
+
+.skilluncapped-floating-brand::before {
+    content: "";
+    position: absolute;
+    inset: -7px 0 0 -24px;
+    z-index: 0;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.72);
+    mask-image:
+        linear-gradient(90deg, transparent 0%, #000 48px),
+        linear-gradient(180deg, transparent 0%, #000 55%);
+    mask-composite: intersect;
+    -webkit-mask-image:
+        linear-gradient(90deg, transparent 0%, #000 48px),
+        linear-gradient(180deg, transparent 0%, #000 55%);
+    -webkit-mask-composite: source-in;
+}
+
+.skilluncapped-floating-brand-text {
+    position: relative;
+    z-index: 1;
+    font-size: 15px;
+    letter-spacing: -0.01em;
+}
+
+.skilluncapped-floating-brand-text strong {
+    color: #fff;
+    font-weight: 700;
+}
+
+.skilluncapped-floating-brand-text span {
+    color: #777;
+    font-weight: 400;
+}
+
+.skilluncapped-version-link {
+    color: #999;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    pointer-events: auto;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.skilluncapped-version-separator {
+    color: #777;
+    font-size: 12px;
+}
+
+.skilluncapped-version-link:hover {
+    color: #ccc;
+    text-decoration: underline;
 }
 
 .skilluncapped-watch-main {
@@ -926,6 +999,10 @@ body.skilluncapped-watch-page #status:empty {
 }
 
 @media (max-width: 900px) {
+    .skilluncapped-floating-brand {
+        --skilluncapped-brand-right-offset: max(12px, calc((100vw - 760px) / 2));
+    }
+
     #skilluncapped-watch-layout {
         grid-template-columns: minmax(0, 1fr);
         gap: 18px;
@@ -943,6 +1020,10 @@ body.skilluncapped-watch-page #status:empty {
     #skilluncapped-watch-layout {
         width: 100%;
         padding-top: 0;
+    }
+
+    .skilluncapped-floating-brand {
+        padding-bottom: 10px;
     }
 
     .skilluncapped-player {
