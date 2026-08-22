@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "SkillUncapped Assistant",
-    "version": "1.4",
+    "version": "1.5",
     "description": "enhances the workflow and user experience for skilluncapped via cross-site automation and built-in cors disabler",
     "icons": {
         "16": "icons/icon16.png",
