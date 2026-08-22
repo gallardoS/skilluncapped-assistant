@@ -485,6 +485,39 @@ body.skilluncapped-watch-page .skilluncapped-playlist-title {
     fill: currentColor;
 }
 
+.skilluncapped-theater-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 40px;
+    padding: 0 16px;
+    border: 1px solid #3f3f3f;
+    border-radius: 999px;
+    background: #272727;
+    color: #fff;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    transition: background 0.2s ease;
+}
+
+.skilluncapped-theater-button:hover {
+    background: #3f3f3f;
+}
+
+.skilluncapped-theater-button[aria-pressed="true"] {
+    border-color: rgba(255, 143, 0, 0.7);
+    background: #3a2a16;
+}
+
+.skilluncapped-theater-button svg {
+    width: 19px;
+    height: 19px;
+    fill: currentColor;
+}
+
 .skilluncapped-download-overlay {
     position: fixed;
     inset: 0;
@@ -667,6 +700,15 @@ body.skilluncapped-watch-page .skilluncapped-sidebar-right {
 
 body.skilluncapped-watch-page .skilluncapped-sidebar-right.closed {
     transform: none;
+}
+
+body.skilluncapped-theater-mode #skilluncapped-watch-layout {
+    grid-template-columns: minmax(0, 1fr);
+}
+
+body.skilluncapped-theater-mode .skilluncapped-sidebar-right {
+    position: static;
+    max-height: 360px;
 }
 
 .skilluncapped-playlist-header {

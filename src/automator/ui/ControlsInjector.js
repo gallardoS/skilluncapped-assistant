@@ -25,6 +25,7 @@ function injectControls(playlist, currentIndex, courseName = null) {
     const actions = document.createElement('div');
     actions.className = 'skilluncapped-video-actions';
     actions.appendChild(injectDownloadDialog(titleEl.textContent));
+    actions.appendChild(createTheaterModeButton());
 
     const navigation = document.createElement('div');
     navigation.className = 'skilluncapped-video-navigation';
