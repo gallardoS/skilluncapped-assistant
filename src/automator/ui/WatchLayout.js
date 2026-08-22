@@ -21,6 +21,8 @@ function initWatchLayout() {
     const statusEl = document.getElementById('status');
     if (statusEl) player.appendChild(statusEl);
 
+    setupVideoGestures(video, player);
+
     const details = document.createElement('div');
     details.className = 'skilluncapped-video-details';
 

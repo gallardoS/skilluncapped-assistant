@@ -378,6 +378,102 @@ body.skilluncapped-watch-page {
     background: #000;
     border-radius: 12px;
     box-shadow: 0 2px 18px rgba(0, 0, 0, 0.35);
+    caret-color: transparent;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.skilluncapped-gesture-surface {
+    position: absolute;
+    inset: 0 0 56px;
+    z-index: 20;
+    cursor: pointer;
+    caret-color: transparent;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.skilluncapped-gesture-feedback {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 35;
+    min-width: 92px;
+    padding: 12px 16px;
+    transform: translate(-50%, -50%) scale(0.92);
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.72);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    opacity: 0;
+    pointer-events: none;
+    text-align: center;
+    transition: opacity 0.14s ease, transform 0.14s ease;
+}
+
+.skilluncapped-gesture-feedback[data-position="left"] {
+    left: 25%;
+}
+
+.skilluncapped-gesture-feedback[data-position="right"] {
+    left: 75%;
+}
+
+.skilluncapped-gesture-feedback.visible {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+}
+
+.skilluncapped-gesture-feedback[data-kind="play"],
+.skilluncapped-gesture-feedback[data-kind="pause"] {
+    display: grid;
+    width: 54px;
+    height: 54px;
+    min-width: 0;
+    padding: 0;
+    place-items: center;
+    border-radius: 50%;
+}
+
+.skilluncapped-gesture-feedback[data-kind="play"]::before {
+    content: "";
+    width: 0;
+    height: 0;
+    margin-left: 4px;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 16px solid #fff;
+}
+
+.skilluncapped-gesture-feedback[data-kind="pause"]::before {
+    content: "";
+    width: 15px;
+    height: 20px;
+    background: linear-gradient(
+        to right,
+        #fff 0 5px,
+        transparent 5px 10px,
+        #fff 10px 15px
+    );
+}
+
+.skilluncapped-fast-playing::after {
+    content: "2×  \23E9\FE0E";
+    position: absolute;
+    top: 14px;
+    left: 50%;
+    z-index: 34;
+    padding: 5px 9px;
+    transform: translateX(-50%);
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.68);
+    color: #fff;
+    font-family: "Segoe UI Symbol", Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    pointer-events: none;
 }
 
 body.skilluncapped-watch-page #video {
@@ -805,16 +901,16 @@ body.skilluncapped-watch-page .skilluncapped-playlist-item.active {
 
 body.skilluncapped-watch-page #status {
     position: absolute;
-    top: 50%;
+    top: 16px;
     left: 50%;
     max-width: calc(100% - 40px);
-    transform: translate(-50%, -50%);
+    transform: translateX(-50%);
     white-space: normal;
     text-align: center;
 }
 
 body.skilluncapped-watch-page #status:empty {
-    transform: translate(-50%, calc(-50% - 12px));
+    transform: translate(-50%, -12px);
 }
 
 @media (max-width: 900px) {
