@@ -424,8 +424,14 @@ body.skilluncapped-watch-page a[href*="discord" i] {
     font-weight: 400;
 }
 
-.skilluncapped-version-link {
-    color: #fff;
+.skilluncapped-version-link,
+.skilluncapped-version-link:link,
+.skilluncapped-version-link:visited {
+    position: relative;
+    z-index: 1;
+    color: #fff !important;
+    -webkit-text-fill-color: #fff !important;
+    opacity: 1 !important;
     font-size: 15px;
     font-weight: 700;
     line-height: 1;
@@ -440,7 +446,8 @@ body.skilluncapped-watch-page a[href*="discord" i] {
 }
 
 .skilluncapped-version-link:hover {
-    color: #ccc;
+    color: #fff !important;
+    -webkit-text-fill-color: #fff !important;
     text-decoration: underline;
 }
 
