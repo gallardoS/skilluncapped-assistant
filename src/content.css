@@ -432,7 +432,6 @@ a[href*="/browse/course/"] svg[data-name="Play Button"] {
     transform: translateX(-50%);
     z-index: 10002;
     background: rgba(33, 150, 243, 0.9);
-    /* Blue-ish info color */
     color: white;
     padding: 10px 20px;
     border-radius: 20px;
@@ -457,4 +456,315 @@ a[href*="/browse/course/"] svg[data-name="Play Button"] {
     opacity: 0;
     pointer-events: none;
     transform: translateX(-50%) translateY(-20px);
+}
+
+body.skilluncapped-watch-page {
+    margin: 0 !important;
+    min-height: 100vh;
+    overflow-x: hidden;
+    background: #0f0f0f !important;
+    color: #f1f1f1;
+    font-family: Roboto, Arial, sans-serif;
+}
+
+#skilluncapped-watch-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 400px);
+    align-items: start;
+    gap: 24px;
+    width: min(1600px, calc(100% - 48px));
+    margin: 0 auto;
+    padding: 24px 0 48px;
+    box-sizing: border-box;
+}
+
+.skilluncapped-watch-main {
+    min-width: 0;
+}
+
+.skilluncapped-player {
+    position: relative;
+    display: grid;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    place-items: center;
+    background: #000;
+    border-radius: 12px;
+    box-shadow: 0 2px 18px rgba(0, 0, 0, 0.35);
+}
+
+body.skilluncapped-watch-page #video {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    object-fit: contain;
+    background: #000;
+}
+
+.skilluncapped-video-details {
+    min-height: 72px;
+}
+
+body.skilluncapped-watch-page #skilluncapped-controls {
+    position: static;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    width: 100%;
+    padding: 14px 2px 10px;
+    transform: none;
+    background: transparent;
+    border-radius: 0;
+    box-shadow: none;
+    box-sizing: border-box;
+}
+
+.skilluncapped-title-group {
+    min-width: 0;
+}
+
+.skilluncapped-course-name {
+    margin-bottom: 5px;
+    color: #aaa;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+
+body.skilluncapped-watch-page .skilluncapped-playlist-title {
+    display: block;
+    max-width: none;
+    margin: 0;
+    overflow: hidden;
+    color: #f1f1f1;
+    font-size: clamp(18px, 1.6vw, 22px);
+    font-weight: 600;
+    line-height: 1.3;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.skilluncapped-video-navigation {
+    display: flex;
+    flex: 0 0 auto;
+    gap: 8px;
+}
+
+body.skilluncapped-watch-page #skilluncapped-controls .skilluncapped-btn-wrapper {
+    margin: 0;
+}
+
+body.skilluncapped-watch-page #skilluncapped-controls .skilluncapped-nav-btn {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 1px solid #3f3f3f;
+    border-radius: 999px;
+    background: #272727;
+    color: #fff;
+    font-size: 22px;
+    line-height: 1;
+}
+
+body.skilluncapped-watch-page #skilluncapped-controls .skilluncapped-nav-btn:hover {
+    background: #3f3f3f;
+}
+
+body.skilluncapped-watch-page .skilluncapped-sidebar-right {
+    position: sticky;
+    top: 24px;
+    right: auto;
+    display: flex;
+    width: 100%;
+    max-height: calc(100vh - 48px);
+    padding: 0;
+    transform: none;
+    overflow: hidden;
+    gap: 0;
+    background: #181818;
+    border: 1px solid #303030;
+    border-radius: 12px;
+    box-shadow: none;
+    box-sizing: border-box;
+}
+
+body.skilluncapped-watch-page .skilluncapped-sidebar-right.closed {
+    transform: none;
+}
+
+.skilluncapped-playlist-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin: 0;
+    padding: 16px;
+    border-bottom: 1px solid #303030;
+    text-align: left;
+}
+
+.skilluncapped-playlist-header strong {
+    min-width: 0;
+    overflow: hidden;
+    font-size: 16px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.skilluncapped-playlist-header span {
+    flex: 0 0 auto;
+    color: #aaa;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+body.skilluncapped-watch-page .skilluncapped-playlist-container {
+    gap: 2px;
+    padding: 8px;
+    overscroll-behavior: contain;
+}
+
+body.skilluncapped-watch-page .skilluncapped-playlist-item {
+    display: grid;
+    grid-template-columns: 38px minmax(0, 1fr);
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    min-height: 58px;
+    padding: 8px 10px;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: #f1f1f1;
+    font-family: inherit;
+    text-align: left;
+}
+
+body.skilluncapped-watch-page .skilluncapped-playlist-item:hover {
+    background: #272727;
+}
+
+body.skilluncapped-watch-page .skilluncapped-playlist-item.active {
+    background: #3a2a16;
+    color: #fff;
+    font-weight: 600;
+}
+
+.skilluncapped-playlist-number {
+    display: grid;
+    width: 38px;
+    height: 38px;
+    place-items: center;
+    border-radius: 7px;
+    background: #272727;
+    color: #aaa;
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+}
+
+.skilluncapped-playlist-item.active .skilluncapped-playlist-number {
+    background: #ff8f00;
+    color: #111;
+}
+
+.skilluncapped-playlist-item-title {
+    display: -webkit-box;
+    overflow: hidden;
+    font-size: 13px;
+    line-height: 1.35;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.skilluncapped-playlist-empty {
+    padding: 28px 18px;
+    color: #aaa;
+    font-size: 14px;
+    line-height: 1.45;
+    text-align: center;
+}
+
+body.skilluncapped-watch-page #status {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    max-width: calc(100% - 40px);
+    transform: translate(-50%, -50%);
+    white-space: normal;
+    text-align: center;
+}
+
+body.skilluncapped-watch-page #status:empty {
+    transform: translate(-50%, calc(-50% - 12px));
+}
+
+body.skilluncapped-watch-page .skilluncapped-sidebar {
+    top: auto;
+    bottom: 20px;
+    transform: translateX(0);
+    max-height: calc(100vh - 40px);
+    overflow: visible;
+}
+
+body.skilluncapped-watch-page .skilluncapped-sidebar.closed {
+    transform: translateX(-100%);
+}
+
+body.skilluncapped-watch-page .skilluncapped-sidebar-toggle {
+    top: auto !important;
+    bottom: 0 !important;
+    transform: none !important;
+    border-radius: 0 8px 8px 0 !important;
+}
+
+body.skilluncapped-watch-page .skilluncapped-sidebar .container {
+    max-height: calc(100vh - 80px);
+    overflow-y: auto;
+}
+
+@media (max-width: 900px) {
+    #skilluncapped-watch-layout {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 18px;
+        width: min(100% - 24px, 760px);
+        padding-top: 12px;
+    }
+
+    body.skilluncapped-watch-page .skilluncapped-sidebar-right {
+        position: static;
+        max-height: 52vh;
+    }
+}
+
+@media (max-width: 560px) {
+    #skilluncapped-watch-layout {
+        width: 100%;
+        padding-top: 0;
+    }
+
+    .skilluncapped-player {
+        border-radius: 0;
+    }
+
+    .skilluncapped-video-details {
+        padding: 0 12px;
+    }
+
+    body.skilluncapped-watch-page #skilluncapped-controls {
+        align-items: flex-start;
+    }
+
+    body.skilluncapped-watch-page .skilluncapped-playlist-title {
+        white-space: normal;
+    }
+
+    body.skilluncapped-watch-page .skilluncapped-sidebar-right {
+        width: calc(100% - 24px);
+        margin: 0 12px;
+    }
 }

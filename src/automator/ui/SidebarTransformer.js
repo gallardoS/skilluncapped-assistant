@@ -1,51 +1,67 @@
 function initSidebarTransformation() {
-    if (document.querySelector('.skilluncapped-sidebar')) return;
+    if (document.getElementById('skilluncapped-watch-layout')) return;
 
     const originalContainer = document.querySelector('.container');
-    if (!originalContainer) return;
+    const video = document.getElementById('video');
+    if (!originalContainer || !video) return;
 
-    const sidebar = document.createElement('div');
+    document.body.classList.add('skilluncapped-watch-page');
+
+    const layout = document.createElement('main');
+    layout.id = 'skilluncapped-watch-layout';
+
+    const watchMain = document.createElement('section');
+    watchMain.className = 'skilluncapped-watch-main';
+
+    const player = document.createElement('div');
+    player.className = 'skilluncapped-player';
+    player.appendChild(video);
+
+    const statusEl = document.getElementById('status');
+    if (statusEl) player.appendChild(statusEl);
+
+    const details = document.createElement('div');
+    details.className = 'skilluncapped-video-details';
+
+    const existingControls = document.getElementById('skilluncapped-controls');
+    if (existingControls) details.appendChild(existingControls);
+
+    watchMain.append(player, details);
+    layout.appendChild(watchMain);
+
+    const existingPlaylist = document.getElementById('skilluncapped-playlist-sidebar');
+    if (existingPlaylist) layout.appendChild(existingPlaylist);
+
+    document.body.prepend(layout);
+
+    const sidebar = document.createElement('aside');
     sidebar.className = 'skilluncapped-sidebar closed';
 
     const toggleBtn = document.createElement('button');
     toggleBtn.className = 'skilluncapped-sidebar-toggle';
-    toggleBtn.innerHTML = '▶';
-    toggleBtn.title = 'Toggle Sidebar';
+    toggleBtn.type = 'button';
+    toggleBtn.innerHTML = '⚙';
+    toggleBtn.title = 'Open player settings';
+    toggleBtn.setAttribute('aria-label', 'Open player settings');
+    toggleBtn.setAttribute('aria-expanded', 'false');
 
     toggleBtn.onclick = () => {
-        sidebar.classList.toggle('closed');
-        if (sidebar.classList.contains('closed')) {
-            toggleBtn.innerHTML = '▶';
-        } else {
-            toggleBtn.innerHTML = '◀';
-        }
+        const isClosed = sidebar.classList.toggle('closed');
+        toggleBtn.innerHTML = isClosed ? '⚙' : '←';
+        toggleBtn.title = isClosed ? 'Open player settings' : 'Close player settings';
+        toggleBtn.setAttribute('aria-expanded', String(!isClosed));
     };
 
-    sidebar.appendChild(toggleBtn);
-
+    sidebar.append(toggleBtn, originalContainer);
     document.body.appendChild(sidebar);
-
-    sidebar.appendChild(originalContainer);
-
-    originalContainer.style.maxWidth = '100%';
-    originalContainer.style.margin = '0';
-    originalContainer.style.padding = '0';
-    originalContainer.style.background = 'transparent';
-    originalContainer.style.boxShadow = 'none';
-
-
-    const statusEl = document.getElementById('status');
-    if (statusEl) {
-        document.body.appendChild(statusEl);
-    }
 }
 
 function startSidebarObserver() {
     const sidebarInterval = setInterval(() => {
-        if (document.querySelector('.container')) {
+        if (document.querySelector('.container') && document.getElementById('video')) {
             initSidebarTransformation();
             clearInterval(sidebarInterval);
         }
-    }, 500);
+    }, 100);
     setTimeout(() => clearInterval(sidebarInterval), 10000);
 }

@@ -2,24 +2,24 @@ function injectPlaylistSidebar(playlist, currentIndex, courseName = null) {
     if (document.getElementById('skilluncapped-playlist-sidebar')) return;
 
     const hasPlaylist = playlist && playlist.length > 0;
-    const sidebar = document.createElement('div');
+    const sidebar = document.createElement('aside');
     sidebar.id = 'skilluncapped-playlist-sidebar';
-    sidebar.className = hasPlaylist ? 'skilluncapped-sidebar-right' : 'skilluncapped-sidebar-right closed';
-
-    const toggleBtn = document.createElement('button');
-    toggleBtn.className = 'skilluncapped-sidebar-toggle-right';
-    toggleBtn.innerHTML = hasPlaylist ? '\u25b6' : '\u25c0';
-    toggleBtn.title = 'Toggle Playlist';
-
-    toggleBtn.onclick = () => {
-        sidebar.classList.toggle('closed');
-        toggleBtn.innerHTML = sidebar.classList.contains('closed') ? '\u25c0' : '\u25b6';
-    };
-    sidebar.appendChild(toggleBtn);
+    sidebar.className = 'skilluncapped-sidebar-right';
+    sidebar.setAttribute('aria-label', 'Course playlist');
 
     const header = document.createElement('div');
     header.className = 'skilluncapped-playlist-header';
-    header.textContent = courseName || 'Playlist';
+
+    const headerTitle = document.createElement('strong');
+    headerTitle.textContent = courseName || 'Playlist';
+    header.appendChild(headerTitle);
+
+    if (hasPlaylist) {
+        const progress = document.createElement('span');
+        progress.textContent = `${Math.max(currentIndex + 1, 1)} / ${playlist.length}`;
+        header.appendChild(progress);
+    }
+
     sidebar.appendChild(header);
 
     const listContainer = document.createElement('div');
@@ -27,29 +27,47 @@ function injectPlaylistSidebar(playlist, currentIndex, courseName = null) {
 
     if (!hasPlaylist) {
         const msg = document.createElement('div');
-        msg.style.padding = '15px';
-        msg.style.color = '#ff6b6b';
-        msg.style.textAlign = 'center';
-        msg.style.fontSize = '14px';
-        msg.innerHTML = 'Playlist not found.<br><br>Please access this video from the main <b>Browse Courses</b> page, not from the specific Course Overview page.';
+        msg.className = 'skilluncapped-playlist-empty';
+        msg.innerHTML = 'Playlist not found.<br><br>Open the video from the main <b>Browse Courses</b> page.';
         listContainer.appendChild(msg);
     } else {
         playlist.forEach((item, index) => {
-            const itemEl = document.createElement('div');
+            const itemEl = document.createElement('button');
+            itemEl.type = 'button';
             itemEl.className = 'skilluncapped-playlist-item';
+
+            const numberEl = document.createElement('span');
+            numberEl.className = 'skilluncapped-playlist-number';
+            numberEl.textContent = String(item.number ?? index + 1).padStart(2, '0');
+
+            const itemTitle = document.createElement('span');
+            itemTitle.className = 'skilluncapped-playlist-item-title';
+            itemTitle.textContent = item.title;
+
+            itemEl.append(numberEl, itemTitle);
+
             if (index === currentIndex) {
                 itemEl.classList.add('active');
+                itemEl.setAttribute('aria-current', 'true');
+            } else {
+                itemEl.onclick = () => updatePage(item.url, playlist, index, courseName);
             }
-            itemEl.textContent = `EP ${item.number}: ${item.title}`;
-            itemEl.onclick = () => {
-                if (index !== currentIndex) {
-                    updatePage(item.url, playlist, index, courseName);
-                }
-            };
+
             listContainer.appendChild(itemEl);
         });
     }
 
     sidebar.appendChild(listContainer);
-    document.body.appendChild(sidebar);
+
+    const layout = document.getElementById('skilluncapped-watch-layout');
+    (layout || document.body).appendChild(sidebar);
+
+    requestAnimationFrame(() => {
+        const activeItem = listContainer.querySelector('.active');
+        if (!activeItem) return;
+
+        listContainer.scrollTop = activeItem.offsetTop
+            - (listContainer.clientHeight / 2)
+            + (activeItem.offsetHeight / 2);
+    });
 }
