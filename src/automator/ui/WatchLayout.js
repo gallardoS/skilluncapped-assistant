@@ -60,7 +60,21 @@ function initWatchLayout() {
     versionSeparator.className = 'skilluncapped-version-separator';
     versionSeparator.textContent = '·';
 
-    floatingBrand.append(brand, versionSeparator, versionLink);
+    const updateAlert = document.createElement('a');
+    updateAlert.className = 'skilluncapped-update-alert';
+    updateAlert.href = 'https://github.com/gallardoS/skilluncapped-assistant/releases';
+    updateAlert.target = '_blank';
+    updateAlert.rel = 'noopener noreferrer';
+    updateAlert.dataset.tooltip = 'A new version is available';
+    updateAlert.setAttribute('aria-label', 'A new version is available');
+    updateAlert.hidden = true;
+
+    const updateAlertIcon = document.createElement('span');
+    updateAlertIcon.className = 'skilluncapped-update-alert-icon';
+    updateAlertIcon.textContent = '!';
+    updateAlert.appendChild(updateAlertIcon);
+
+    floatingBrand.append(brand, versionSeparator, versionLink, updateAlert);
 
     document.body.prepend(layout);
     document.body.appendChild(floatingBrand);

@@ -10,7 +10,8 @@
         "128": "icons/icon128.png"
     },
     "permissions": [
-        "declarativeNetRequest"
+        "declarativeNetRequest",
+        "storage"
     ],
     "host_permissions": [
         "<all_urls>"
@@ -31,6 +32,9 @@
             "48": "icons/icon48.png",
             "128": "icons/icon128.png"
         }
+    },
+    "background": {
+        "service_worker": "src/background.js"
     },
     "content_scripts": [
         {
@@ -68,6 +72,15 @@
             ],
             "run_at": "document_start",
             "world": "MAIN"
+        },
+        {
+            "matches": [
+                "*://skilluncapped.netlify.app/*"
+            ],
+            "js": [
+                "src/update-checker.js"
+            ],
+            "run_at": "document_idle"
         }
     ]
 }

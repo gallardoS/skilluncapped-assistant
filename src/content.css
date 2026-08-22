@@ -444,6 +444,103 @@ body.skilluncapped-watch-page a[href*="discord" i] {
     text-decoration: underline;
 }
 
+.skilluncapped-update-alert {
+    position: relative;
+    display: grid;
+    width: 18px;
+    height: 22px;
+    margin-left: 1px;
+    place-items: center;
+    color: #ffd429;
+    outline: none;
+    pointer-events: auto;
+    text-decoration: none;
+}
+
+.skilluncapped-update-alert[hidden] {
+    display: none;
+}
+
+.skilluncapped-update-alert-icon {
+    display: block;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 23px;
+    font-weight: 900;
+    line-height: 1;
+    transform-origin: center bottom;
+    animation: skilluncappedUpdatePulse 1.8s ease-in-out infinite;
+    text-shadow:
+        -1px -1px 0 #3b2600,
+        1px -1px 0 #3b2600,
+        -1px 1px 0 #3b2600,
+        1px 1px 0 #3b2600,
+        0 0 7px rgba(255, 194, 31, 0.55);
+}
+
+.skilluncapped-update-alert::before,
+.skilluncapped-update-alert::after {
+    position: absolute;
+    right: 0;
+    z-index: 2;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.16s ease, transform 0.16s ease;
+}
+
+.skilluncapped-update-alert::before {
+    content: "";
+    bottom: calc(100% + 4px);
+    border-top: 6px solid rgba(24, 24, 24, 0.98);
+    border-right: 6px solid transparent;
+    border-left: 6px solid transparent;
+    transform: translateY(4px);
+}
+
+.skilluncapped-update-alert::after {
+    content: attr(data-tooltip);
+    bottom: calc(100% + 10px);
+    width: max-content;
+    max-width: min(260px, calc(100vw - 24px));
+    padding: 8px 10px;
+    border: 1px solid #3f3f3f;
+    border-radius: 7px;
+    background: rgba(24, 24, 24, 0.98);
+    color: #f1f1f1;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+    font-family: Roboto, Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.35;
+    text-align: left;
+    white-space: normal;
+    transform: translateY(4px);
+}
+
+.skilluncapped-update-alert:hover::before,
+.skilluncapped-update-alert:hover::after,
+.skilluncapped-update-alert:focus-visible::before,
+.skilluncapped-update-alert:focus-visible::after {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@keyframes skilluncappedUpdatePulse {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .skilluncapped-update-alert-icon {
+        animation: none;
+    }
+}
+
 .skilluncapped-watch-main {
     min-width: 0;
 }
