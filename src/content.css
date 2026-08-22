@@ -425,9 +425,9 @@ body.skilluncapped-watch-page a[href*="discord" i] {
 }
 
 .skilluncapped-version-link {
-    color: #999;
-    font-size: 11px;
-    font-weight: 500;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
     line-height: 1;
     pointer-events: auto;
     text-decoration: none;
