@@ -24,6 +24,7 @@ class VideoGesturesController {
         this.handlePointerMove = this.handlePointerMove.bind(this);
         this.handlePointerUp = this.handlePointerUp.bind(this);
         this.handleClick = this.handleClick.bind(this);
+        this.handleKeyDown = this.handleKeyDown.bind(this);
         this.stopFastPlayback = this.stopFastPlayback.bind(this);
         this.handleFullscreenChange = this.handleFullscreenChange.bind(this);
 
@@ -36,6 +37,7 @@ class VideoGesturesController {
         this.attachGestureSurfaceEvents();
         this.video.addEventListener('pointerdown', this.handlePointerDown);
         this.video.addEventListener('click', this.handleClick);
+        this.video.addEventListener('keydown', this.handleKeyDown);
         this.player.addEventListener('dblclick', this.handleDoubleClick, true);
         window.addEventListener('pointermove', this.handlePointerMove, true);
         window.addEventListener('pointerup', this.handlePointerUp, true);
@@ -87,13 +89,25 @@ class VideoGesturesController {
     seekFromPoint(clientX) {
         const rect = this.player.getBoundingClientRect();
         const direction = clientX < rect.left + rect.width / 3 ? -1 : 1;
-        const nextTime = Math.max(0, this.video.currentTime + direction * 10);
+        this.seekBy(direction * 10);
+    }
+
+    seekBy(seconds) {
+        const nextTime = Math.max(0, this.video.currentTime + seconds);
         const boundedTime = Number.isFinite(this.video.duration)
             ? Math.min(nextTime, this.video.duration)
             : nextTime;
 
         this.video.currentTime = boundedTime;
-        this.showFeedback(direction < 0 ? '−10 seconds' : '+10 seconds', direction < 0 ? 'left' : 'right');
+        this.showFeedback(seconds < 0 ? '−10 seconds' : '+10 seconds', seconds < 0 ? 'left' : 'right');
+    }
+
+    handleKeyDown(event) {
+        if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+
+        event.preventDefault();
+        event.stopPropagation();
+        this.seekBy(event.key === 'ArrowLeft' ? -10 : 10);
     }
 
     handleFullscreenChange() {
@@ -133,6 +147,7 @@ class VideoGesturesController {
         if (event.button !== 0 || !this.isInsideVideoSurface(event)) return;
 
         event.preventDefault();
+        this.video.focus({ preventScroll: true });
 
         const pointerDownAt = performance.now();
         if (pointerDownAt - this.lastPointerDownAt < 350) this.suspendNativeControls();
