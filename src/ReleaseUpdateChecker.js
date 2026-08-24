@@ -6,7 +6,7 @@ globalThis.ReleaseUpdateChecker = class ReleaseUpdateChecker {
         cacheTtl,
         storage = chrome.storage.local,
         getCurrentVersion = () => chrome.runtime.getManifest().version,
-        fetchRelease = fetch
+        fetchRelease = (...args) => globalThis.fetch(...args)
     }) {
         this.apiUrl = apiUrl;
         this.releasesUrl = releasesUrl;
