@@ -103,11 +103,26 @@ class VideoGesturesController {
     }
 
     handleKeyDown(event) {
-        if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+        const supportedKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
+        if (!supportedKeys.includes(event.key)) return;
 
         event.preventDefault();
         event.stopPropagation();
-        this.seekBy(event.key === 'ArrowLeft' ? -10 : 10);
+
+        if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+            this.seekBy(event.key === 'ArrowLeft' ? -10 : 10);
+            return;
+        }
+
+        this.adjustVolume(event.key === 'ArrowUp' ? 0.1 : -0.1);
+    }
+
+    adjustVolume(amount) {
+        const nextVolume = Math.round((this.video.volume + amount) * 10) / 10;
+        this.video.volume = Math.min(1, Math.max(0, nextVolume));
+        if (this.video.volume > 0) this.video.muted = false;
+
+        this.showFeedback(`Volume: ${Math.round(this.video.volume * 100)}%`, 'center');
     }
 
     handleFullscreenChange() {
