@@ -37,7 +37,7 @@ class VideoGesturesController {
         this.attachGestureSurfaceEvents();
         this.video.addEventListener('pointerdown', this.handlePointerDown);
         this.video.addEventListener('click', this.handleClick);
-        this.video.addEventListener('keydown', this.handleKeyDown);
+        document.addEventListener('keydown', this.handleKeyDown, true);
         this.player.addEventListener('dblclick', this.handleDoubleClick, true);
         window.addEventListener('pointermove', this.handlePointerMove, true);
         window.addEventListener('pointerup', this.handlePointerUp, true);
@@ -104,7 +104,14 @@ class VideoGesturesController {
 
     handleKeyDown(event) {
         const supportedKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
-        if (!supportedKeys.includes(event.key)) return;
+        if (
+            !supportedKeys.includes(event.key)
+            || event.altKey
+            || event.ctrlKey
+            || event.metaKey
+            || event.isComposing
+            || this.shouldIgnoreKeyboardEvent(event)
+        ) return;
 
         event.preventDefault();
         event.stopPropagation();
@@ -115,6 +122,15 @@ class VideoGesturesController {
         }
 
         this.adjustVolume(event.key === 'ArrowUp' ? 0.1 : -0.1);
+    }
+
+    shouldIgnoreKeyboardEvent(event) {
+        const downloadOverlay = document.getElementById('skilluncapped-download-overlay');
+        if (downloadOverlay && !downloadOverlay.hidden) return true;
+
+        const target = event.target instanceof Element ? event.target : document.activeElement;
+        return target instanceof Element
+            && Boolean(target.closest('input, textarea, select, [contenteditable]:not([contenteditable="false"])'));
     }
 
     adjustVolume(amount) {
@@ -162,7 +178,6 @@ class VideoGesturesController {
         if (event.button !== 0 || !this.isInsideVideoSurface(event)) return;
 
         event.preventDefault();
-        this.video.focus({ preventScroll: true });
 
         const pointerDownAt = performance.now();
         if (pointerDownAt - this.lastPointerDownAt < 350) this.suspendNativeControls();
