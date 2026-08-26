@@ -724,6 +724,254 @@ body.skilluncapped-watch-page .skilluncapped-playlist-title {
     white-space: nowrap;
 }
 
+body.skilluncapped-watch-page .skilluncapped-commentary-title {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    overflow: visible;
+}
+
+.skilluncapped-commentary-champion-tooltip {
+    position: relative;
+    display: inline-flex;
+    flex: 0 0 auto;
+    outline: none;
+}
+
+.skilluncapped-commentary-champion-tooltip::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: calc(100% + 7px);
+    left: 50%;
+    z-index: 90;
+    padding: 5px 8px;
+    transform: translate(-50%, 3px);
+    visibility: hidden;
+    opacity: 0;
+    border-radius: 5px;
+    background: rgba(15, 15, 15, 0.97);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    color: #f0e6d2;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.2;
+    pointer-events: none;
+    white-space: nowrap;
+    transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+}
+
+.skilluncapped-commentary-champion-tooltip:hover::after,
+.skilluncapped-commentary-champion-tooltip:focus-visible::after {
+    transform: translate(-50%, 0);
+    visibility: visible;
+    opacity: 1;
+}
+
+.skilluncapped-commentary-champion {
+    width: 38px;
+    height: 38px;
+    flex: 0 0 auto;
+    border: 1px solid #454545;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.skilluncapped-commentary-vs {
+    color: #aaa;
+    font-size: 13px;
+    font-weight: 500;
+    text-transform: lowercase;
+}
+
+.skilluncapped-commentary-role-icon {
+    width: 25px;
+    height: 25px;
+    flex: 0 0 25px;
+    margin-left: 5px;
+    object-fit: contain;
+}
+
+.skilluncapped-commentary-summary {
+    min-width: 0;
+    margin-left: 4px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.skilluncapped-commentary-description {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    margin-top: 10px;
+    padding: 8px 10px;
+    gap: 7px;
+    border-radius: 9px;
+    background: #272727;
+}
+
+.skilluncapped-commentary-description-label {
+    margin-right: 3px;
+    color: #aaa;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+}
+
+.skilluncapped-commentary-loadout-tooltip {
+    position: static;
+    display: inline-flex;
+    outline: none;
+}
+
+.skilluncapped-commentary-tooltip-card {
+    position: absolute;
+    bottom: calc(100% + 9px);
+    left: 0;
+    z-index: 80;
+    display: block;
+    width: min(330px, calc(100vw - 32px));
+    max-height: min(430px, 70vh);
+    padding: 14px 15px;
+    transform: translateY(4px);
+    visibility: hidden;
+    opacity: 0;
+    overflow-y: auto;
+    border: 1px solid #785a28;
+    border-radius: 4px;
+    background: linear-gradient(145deg, rgba(13, 22, 29, 0.99), rgba(5, 10, 14, 0.99));
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.72);
+    color: #c8c6bd;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.45;
+    pointer-events: none;
+    text-align: left;
+    white-space: normal;
+    transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+    box-sizing: border-box;
+}
+
+.skilluncapped-commentary-loadout-tooltip:hover .skilluncapped-commentary-tooltip-card,
+.skilluncapped-commentary-loadout-tooltip:focus-visible .skilluncapped-commentary-tooltip-card {
+    transform: translateY(0);
+    visibility: visible;
+    opacity: 1;
+}
+
+.skilluncapped-commentary-tooltip-name,
+.skilluncapped-commentary-tooltip-body,
+.skilluncapped-commentary-tooltip-gold {
+    display: block;
+}
+
+.skilluncapped-commentary-tooltip-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    min-height: 38px;
+    margin-bottom: 9px;
+    gap: 12px;
+}
+
+.skilluncapped-commentary-tooltip-name {
+    min-width: 0;
+    padding-top: 2px;
+    color: #f0e6d2;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.skilluncapped-commentary-tooltip-feature-icon {
+    width: 38px;
+    height: 38px;
+    flex: 0 0 38px;
+    border: 1px solid #785a28;
+    border-radius: 3px;
+    box-shadow: 0 2px 7px rgba(0, 0, 0, 0.55);
+    object-fit: cover;
+}
+
+.skilluncapped-commentary-tooltip-card.is-rune-tooltip .skilluncapped-commentary-tooltip-feature-icon {
+    width: 48px;
+    height: 48px;
+    flex-basis: 48px;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    box-shadow: none;
+}
+
+.skilluncapped-commentary-tooltip-body {
+    color: #a09b8c;
+}
+
+.skilluncapped-commentary-tooltip-body p {
+    margin: 6px 0 0;
+}
+
+.skilluncapped-commentary-tooltip-body ul,
+.skilluncapped-commentary-tooltip-body ol {
+    margin: 6px 0;
+    padding-left: 18px;
+}
+
+.skilluncapped-commentary-tooltip-gold {
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(200, 170, 90, 0.25);
+    color: #c8aa6e;
+}
+
+.skilluncapped-dd-stats,
+.skilluncapped-dd-attention {
+    color: #f0e6d2;
+}
+
+.skilluncapped-dd-passive,
+.skilluncapped-dd-active {
+    color: #d0a85c;
+    font-weight: 700;
+}
+
+.skilluncapped-dd-healing,
+.skilluncapped-dd-shield {
+    color: #59c985;
+}
+
+.skilluncapped-dd-magicdamage {
+    color: #a875ff;
+}
+
+.skilluncapped-dd-physicaldamage {
+    color: #e07b54;
+}
+
+.skilluncapped-dd-truedamage {
+    color: #f0e6d2;
+}
+
+.skilluncapped-commentary-loadout-icon {
+    width: 32px;
+    height: 32px;
+    border: 1px solid #454545;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+.skilluncapped-commentary-loadout-tooltip.is-rune {
+    margin-left: 4px;
+}
+
+.skilluncapped-commentary-loadout-tooltip.is-rune .skilluncapped-commentary-loadout-icon {
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+}
+
 .skilluncapped-video-navigation {
     display: flex;
     flex: 0 0 auto;

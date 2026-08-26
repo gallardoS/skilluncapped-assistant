@@ -1,4 +1,4 @@
-function attemptAutoplay(targetUrl, playlist, currentIndexStr, courseName) {
+function attemptAutoplay(targetUrl, playlist, currentIndexStr, courseName, commentaryJson = null) {
     if (!targetUrl) return;
 
     const interval = setInterval(() => {
@@ -14,6 +14,7 @@ function attemptAutoplay(targetUrl, playlist, currentIndexStr, courseName) {
 
             let parsedPlaylist = [];
             let parsedIndex = -1;
+            let commentary = null;
 
             if (playlist && currentIndexStr !== null) {
                 try {
@@ -25,7 +26,15 @@ function attemptAutoplay(targetUrl, playlist, currentIndexStr, courseName) {
                 }
             }
 
-            injectControls(parsedPlaylist, parsedIndex, courseName);
+            if (commentaryJson) {
+                try {
+                    commentary = JSON.parse(commentaryJson);
+                } catch (e) {
+                    console.error("Failed to parse commentary metadata", e);
+                }
+            }
+
+            injectControls(parsedPlaylist, parsedIndex, courseName, commentary);
             setupNextVideoCountdown(parsedPlaylist, parsedIndex, courseName);
             window.skillUncappedAdjacentVideoPreloader?.preloadAdjacent(
                 parsedPlaylist,
