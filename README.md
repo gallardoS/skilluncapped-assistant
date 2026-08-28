@@ -8,7 +8,7 @@ enhances the workflow and user experience for SkillUncapped via cross-site autom
 - **Playlist Extraction**: Extracts the entire course playlist when accessing a video from the main `/game/browse/course` page. This enables browsing through episodes without leaving the page via injected navigation controls.
 - **Built-in CORS Handler**: Includes a cross-origin resource sharing disabler required for video playback.
 
-## Installation on Chrome
+## <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/chrome/chrome-original.svg" alt="Google Chrome" width="22" height="22"> Installation on Chrome
 
 1. Download the latest version from the [Releases](https://github.com/gallardoS/skilluncapped-assistant/releases) page.
 2. Unzip the downloaded file.
@@ -17,7 +17,7 @@ enhances the workflow and user experience for SkillUncapped via cross-site autom
 5. Click on "Load unpacked".
 6. Select the folder containing this extension.
 
-## Installation on Firefox
+## <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/firefox/firefox-original.svg" alt="Mozilla Firefox" width="22" height="22"> Installation on Firefox
 
 Firefox 128 or newer is required.
 
