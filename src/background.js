@@ -1,4 +1,6 @@
-importScripts('ReleaseUpdateChecker.js');
+if (typeof importScripts === 'function') {
+    importScripts('ReleaseUpdateChecker.js');
+}
 
 const releaseUpdateChecker = new ReleaseUpdateChecker({
     apiUrl: 'https://api.github.com/repos/gallardoS/skilluncapped-assistant/releases/latest',
