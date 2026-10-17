@@ -1,9 +1,10 @@
 class AdjacentVideoPreloader {
     constructor() {
-        this.cacheKey = 'skilluncapped-video-boundaries-v1';
+        this.cacheKey = 'skilluncapped-video-boundaries-v2';
         this.segmentPattern = /\/([a-z0-9]{10})\/HIDDEN4500-(\d{5})\.ts(?:$|\?)/i;
         this.nativeFetch = window.fetch.bind(window);
         this.inFlightResolutions = new Map();
+        this.availabilityChecks = new Map();
 
         window.fetch = this.fetchWithCache.bind(this);
     }
@@ -50,6 +51,7 @@ class AdjacentVideoPreloader {
     }
 
     async findBoundary(videoId) {
+        await this.verifyAvailability(videoId);
         let firstPossiblePart = 0;
         let lastPossiblePart = 999;
         let boundary = -1;
@@ -59,16 +61,38 @@ class AdjacentVideoPreloader {
             const segmentUrl = `https://d13z5uuzt1wkbz.cloudfront.net/${videoId}/HIDDEN4500-${String(part).padStart(5, '0')}.ts`;
             const response = await this.nativeFetch(segmentUrl, { method: 'HEAD' });
 
-            if (response.status === 403) {
+            if (response.status === 403 || response.status === 404) {
                 lastPossiblePart = part - 1;
-            } else {
+            } else if (response.ok) {
                 boundary = part;
                 firstPossiblePart = part + 1;
+            } else {
+                throw new Error(`Playback server returned HTTP ${response.status}`);
             }
         }
 
         if (boundary >= 0) this.cacheBoundary(videoId, boundary);
         return boundary >= 0 ? boundary : null;
+    }
+
+    verifyAvailability(videoId) {
+        if (this.availabilityChecks.has(videoId)) return this.availabilityChecks.get(videoId);
+
+        const segmentUrl = `https://d13z5uuzt1wkbz.cloudfront.net/${videoId}/HIDDEN4500-00001.ts`;
+        const check = this.nativeFetch(segmentUrl, { method: 'HEAD' })
+            .then(response => {
+                if (!response.ok) {
+                    const error = new Error(`Playback server returned HTTP ${response.status}`);
+                    error.status = response.status;
+                    throw error;
+                }
+            })
+            .catch(error => {
+                this.availabilityChecks.delete(videoId);
+                throw error;
+            });
+        this.availabilityChecks.set(videoId, check);
+        return check;
     }
 
     async fetchWithCache(input, init) {
@@ -77,6 +101,17 @@ class AdjacentVideoPreloader {
         const segmentMatch = requestMethod === 'HEAD' && requestUrl ? requestUrl.match(this.segmentPattern) : null;
 
         if (segmentMatch) {
+            try {
+                await this.verifyAvailability(segmentMatch[1]);
+            } catch (error) {
+                const status = document.getElementById('status');
+                if (status) {
+                    status.textContent = error.status === 403 || error.status === 404
+                        ? 'This video is unavailable from the SkillUncapped playback server.'
+                        : 'Could not reach the playback server. Please try again later.';
+                }
+                throw error;
+            }
             const cachedBoundary = this.getCachedBoundary(segmentMatch[1]);
             if (cachedBoundary !== null) {
                 const requestedPart = Number.parseInt(segmentMatch[2], 10);
