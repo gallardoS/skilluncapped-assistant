@@ -45,12 +45,17 @@ class CardScanner {
             event.preventDefault();
             event.stopPropagation();
             const href = getUrl?.() || (card.matches('a[href]') ? card.href : null);
-            if (href) {
-                this.openModernLesson(href);
+            const courseName = card.querySelector('[data-part="course-title"]')?.textContent.trim() || null;
+            const expectedRoute = href ? this.coursePage.getCourseRoute(href) : null;
+            if (href && (getUrl || this.coursePage.getContext(href) || !expectedRoute)) {
+                this.openModernLesson(href, courseName);
                 return;
             }
 
-            this.navigationHandler.notifyPendingNavigation(null, null, url => this.coursePage.getContext(url));
+            this.navigationHandler.notifyPendingNavigation(null, null, url => {
+                if (expectedRoute && this.coursePage.getCourseRoute(url)?.courseId !== expectedRoute.courseId) return null;
+                return this.coursePage.getContext(url);
+            }, href ? { url: href, courseName } : null);
             card.click();
         }).create();
         button.classList.add('skilluncapped-modern-play-btn');
@@ -58,9 +63,10 @@ class CardScanner {
         card.appendChild(button);
     }
 
-    openModernLesson(url) {
+    openModernLesson(url, fallbackCourseName = null) {
         const context = this.coursePage.getContext(url);
-        this.navigationHandler.openTool(url, context?.playlist || [], context?.index ?? -1, context?.courseName || null);
+        this.navigationHandler.openTool(url, context?.playlist || [], context?.index ?? -1,
+            context?.courseName || fallbackCourseName);
     }
 
     scanCards() {

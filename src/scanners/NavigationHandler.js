@@ -8,6 +8,7 @@ class NavigationHandler {
         this.pendingWindow = null;
         this.pendingTimeout = null;
         this.pendingStartUrl = null;
+        this.pendingFallback = null;
     }
 
     clearPendingNavigation(closeWindow = false) {
@@ -19,19 +20,32 @@ class NavigationHandler {
         this.pendingContextResolver = null;
         this.pendingWindow = null;
         this.pendingStartUrl = null;
+        this.pendingFallback = null;
     }
 
-    notifyPendingNavigation(urlTransformer = null, metadata = null, contextResolver = null) {
+    notifyPendingNavigation(urlTransformer = null, metadata = null, contextResolver = null, fallback = null) {
         this.clearPendingNavigation(true);
         this.playButtonPending = true;
         this.pendingUrlTransformer = urlTransformer;
         this.pendingMetadata = metadata;
         this.pendingContextResolver = contextResolver;
         this.pendingStartUrl = window.location.href;
+        this.pendingFallback = fallback;
         this.pendingWindow = window.open('about:blank', '_blank');
         if (this.pendingWindow) this.pendingWindow.opener = null;
 
-        this.pendingTimeout = setTimeout(() => this.clearPendingNavigation(true), 10000);
+        this.pendingTimeout = setTimeout(() => {
+            if (!this.pendingFallback?.url) {
+                this.clearPendingNavigation(true);
+                return;
+            }
+            const playbackWindow = this.pendingWindow;
+            const pendingFallback = this.pendingFallback;
+            const pendingMetadata = this.pendingMetadata;
+            this.clearPendingNavigation();
+            if (playbackWindow?.closed) return;
+            this.openTool(pendingFallback.url, [], -1, pendingFallback.courseName, pendingMetadata, playbackWindow);
+        }, 10000);
     }
 
     handleUrlChange(newUrl) {
@@ -43,10 +57,11 @@ class NavigationHandler {
             if (this.pendingContextResolver && !context) return;
             if (targetUrl) {
                 const playbackWindow = this.pendingWindow;
+                const courseName = context?.courseName || this.pendingFallback?.courseName || null;
                 this.clearPendingNavigation();
                 if (playbackWindow?.closed) return;
                 this.openTool(targetUrl, context?.playlist || [], context?.index ?? -1,
-                    context?.courseName || null, metadata, playbackWindow);
+                    courseName, metadata, playbackWindow);
             }
         }
     }
