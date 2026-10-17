@@ -1,6 +1,7 @@
 class CardScanner {
     constructor(navigationHandler) {
         this.navigationHandler = navigationHandler;
+        this.coursePage = new CoursePageAdapter();
     }
 
     scan() {
@@ -8,6 +9,58 @@ class CardScanner {
         this.scanEpisodes();
         this.scanBrowseCards();
         this.scanCommentaryCards();
+        this.scanModernCourses();
+    }
+
+    scanModernCourses() {
+        const cards = new Set(document.querySelectorAll(
+            '[data-name*="V3 Course Card"], [data-name="Just Released Videos"] > button, ' +
+            '[data-name="V3 Path Stepper"] button'
+        ));
+        document.querySelectorAll('[data-part="course-title"]').forEach(title => {
+            const card = title.closest('button, a');
+            if (card) cards.add(card);
+        });
+        cards.forEach(card => this.enhanceModernCard(card));
+
+        document.querySelectorAll('#learning-course-videos [data-course-lesson]').forEach(row => {
+            this.enhanceModernCard(row, () => this.coursePage.getLessonUrl(row));
+        });
+
+        const title = document.querySelector('#video-v2-lesson-title');
+        if (title && !title.querySelector('.skilluncapped-play-btn')) {
+            const button = new PlayButtonComponent(event => {
+                event.preventDefault();
+                event.stopPropagation();
+                this.openModernLesson(window.location.href);
+            }).create();
+            button.classList.add('skilluncapped-lesson-play-btn');
+            title.appendChild(button);
+        }
+    }
+
+    enhanceModernCard(card, getUrl = null) {
+        if (card.querySelector('.skilluncapped-play-btn')) return;
+        const button = new PlayButtonComponent(event => {
+            event.preventDefault();
+            event.stopPropagation();
+            const href = getUrl?.() || (card.matches('a[href]') ? card.href : null);
+            if (href) {
+                this.openModernLesson(href);
+                return;
+            }
+
+            this.navigationHandler.notifyPendingNavigation(null, null, url => this.coursePage.getContext(url));
+            card.click();
+        }).create();
+        button.classList.add('skilluncapped-modern-play-btn');
+        card.classList.add('skilluncapped-modern-card');
+        card.appendChild(button);
+    }
+
+    openModernLesson(url) {
+        const context = this.coursePage.getContext(url);
+        this.navigationHandler.openTool(url, context?.playlist || [], context?.index ?? -1, context?.courseName || null);
     }
 
     scanCards() {

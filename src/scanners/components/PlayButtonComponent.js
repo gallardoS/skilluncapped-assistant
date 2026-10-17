@@ -4,7 +4,7 @@ class PlayButtonComponent {
     }
 
     create() {
-        const wrapper = document.createElement("div");
+        const wrapper = document.createElement("span");
         wrapper.classList.add("skilluncapped-btn-wrapper");
         wrapper.classList.add("skilluncapped-magic-play-btn");
 
@@ -24,7 +24,18 @@ class PlayButtonComponent {
         glyph.classList.add("skilluncapped-play-glyph");
         svg.appendChild(glyph);
 
-        svg.addEventListener('click', (e) => this.onClick(e));
+        wrapper.setAttribute('role', 'button');
+        wrapper.setAttribute('tabindex', '0');
+        wrapper.setAttribute('aria-label', 'Open in SkillUncapped');
+        wrapper.setAttribute('title', 'Open in SkillUncapped');
+        wrapper.addEventListener('click', (e) => this.onClick(e));
+        wrapper.addEventListener('keydown', (e) => {
+            e.stopPropagation();
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                wrapper.click();
+            }
+        });
 
         const baseDelays = [0, 0.7, 1.2];
         const randomOffset = Math.random() * 2;

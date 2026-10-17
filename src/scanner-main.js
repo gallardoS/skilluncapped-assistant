@@ -3,25 +3,39 @@ class App {
         this.navigationHandler = new NavigationHandler();
         this.cardScanner = new CardScanner(this.navigationHandler);
         this.lastUrl = location.href;
+        this.scanScheduled = false;
     }
 
     init() {
         this.cardScanner.scan();
         this.startObserver();
+        this.navigationHandler.checkInterval = setInterval(() => this.checkUrlChange(), 250);
+        window.addEventListener('popstate', () => this.scheduleScan());
+    }
+
+    scheduleScan() {
+        if (this.scanScheduled) return;
+        this.scanScheduled = true;
+        setTimeout(() => {
+            this.scanScheduled = false;
+            this.cardScanner.scan();
+            this.checkUrlChange();
+        }, 50);
     }
 
     startObserver() {
         const observer = new MutationObserver((mutations) => {
-            this.checkUrlChange();
-
-            if (this.hasAddedNodes(mutations)) {
-                this.cardScanner.scan();
+            if (mutations.some(mutation => mutation.type === 'attributes') || this.hasAddedNodes(mutations)) {
+                this.scheduleScan();
             }
+            this.checkUrlChange();
         });
 
         observer.observe(document.body, {
             childList: true,
-            subtree: true
+            subtree: true,
+            attributes: true,
+            attributeFilter: ['href', 'aria-current', 'data-course-lesson', 'src']
         });
     }
 
@@ -29,8 +43,9 @@ class App {
         const url = location.href;
         if (url !== this.lastUrl) {
             this.lastUrl = url;
-            this.navigationHandler.handleUrlChange(url);
+            this.scheduleScan();
         }
+        this.navigationHandler.handleUrlChange(url);
     }
 
     hasAddedNodes(mutations) {

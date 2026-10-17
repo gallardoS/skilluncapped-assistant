@@ -178,6 +178,37 @@ a[href*="/browse/course/"] svg[data-name="Play Button"] {
     flex-wrap: nowrap !important;
 }
 
+.skilluncapped-modern-card {
+    position: relative !important;
+}
+
+.skilluncapped-modern-card > .skilluncapped-modern-play-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    margin: 0;
+    z-index: 3;
+}
+
+#learning-course-videos .skilluncapped-modern-card > .skilluncapped-modern-play-btn {
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#learning-course-videos .skilluncapped-modern-card {
+    padding-right: 56px;
+}
+
+.skilluncapped-lesson-play-btn {
+    margin-left: 12px;
+    margin-right: 0;
+}
+
+.skilluncapped-btn-wrapper:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 4px;
+}
+
 #skilluncapped-controls {
     position: fixed;
     top: 20px;

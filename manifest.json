@@ -59,6 +59,7 @@
             "js": [
                 "src/scanners/components/PlayButtonComponent.js",
                 "src/scanners/NavigationHandler.js",
+                "src/scanners/CoursePageAdapter.js",
                 "src/scanners/CardScanner.js",
                 "src/scanner-main.js"
             ],
