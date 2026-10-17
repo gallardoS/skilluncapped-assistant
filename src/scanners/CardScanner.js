@@ -59,8 +59,9 @@ class CardScanner {
             card.click();
         }).create();
         button.classList.add('skilluncapped-modern-play-btn');
-        card.classList.add('skilluncapped-modern-card');
-        card.appendChild(button);
+        const buttonContainer = card.querySelector('.v3-step-card') || card;
+        buttonContainer.classList.add('skilluncapped-modern-card');
+        buttonContainer.appendChild(button);
     }
 
     openModernLesson(url, fallbackCourseName = null) {
